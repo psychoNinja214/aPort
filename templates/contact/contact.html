@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact — dev.portfolio{% endblock %}
+
+{% block content %}
+<div class="contact-layout">
+    <div class="contact-intro">
+        <div class="hero-eyebrow">
+            <span class="dot"></span>
+            Let's talk
+        </div>
+        <h1 class="contact-title">Got a project<br><em>in mind?</em></h1>
+        <p class="contact-sub">I'm currently available for freelance work and full-time roles. Send me a message and I'll get back to you within 24 hours.</p>
+
+        <div class="contact-facts">
+            <div class="fact">
+                <span class="fact-label">Response time</span>
+                <span class="fact-value">within 24h</span>
+            </div>
+            <div class="fact">
+                <span class="fact-label">Based in</span>
+                <span class="fact-value">Remote</span>
+            </div>
+            <div class="fact">
+                <span class="fact-label">Status</span>
+                <span class="fact-value dot-green">Open to work</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-form-wrap">
+        <form method="post" class="contact-form" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="field-group {% if field.errors %}field-error{% endif %}">
+                <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <p class="field-error-msg">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-send">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

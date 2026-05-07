@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} — dev.portfolio{% endblock %}
+
+{% block content %}
+<div class="detail-layout">
+    <a href="{% url 'home' %}" class="back-link">Back to work</a>
+
+    <div class="detail-header">
+        <div class="card-status status-{{ project.status }}">{{ project.get_status_display }}</div>
+        <h1 class="detail-title">{{ project.title }}</h1>
+        <p class="detail-tagline">{{ project.tagline }}</p>
+    </div>
+
+    {% if project.image %}
+    <div class="detail-image">
+        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+    </div>
+    {% endif %}
+
+    <div class="detail-body">
+        <div class="detail-description">
+            <h2>About this project</h2>
+            <p>{{ project.description|linebreaksbr }}</p>
+        </div>
+
+        <aside class="detail-meta">
+            {% if project.technologies.all %}
+            <div class="meta-block">
+                <h3 class="meta-label">Technologies</h3>
+                <div class="card-tech">
+                    {% for tech in project.technologies.all %}
+                    <span class="tech-tag" style="--tag-color: {{ tech.color }}">{{ tech.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="meta-block meta-links">
+                <h3 class="meta-label">Links</h3>
+                {% if project.live_url %}
+                <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="btn btn-primary">View Live</a>
+                {% endif %}
+                {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+                {% endif %}
+                {% if not project.live_url and not project.github_url %}
+                <p class="no-links">No links available yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="meta-block">
+                <h3 class="meta-label">Get in Touch</h3>
+                <a href="{% url 'contact' %}" class="btn btn-outline">Contact Me</a>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

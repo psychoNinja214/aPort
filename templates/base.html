@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}dev.portfolio{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="noise"></div>
+
+    <nav class="nav">
+        <a href="{% url 'home' %}" class="nav-logo">
+            <span class="logo-bracket">[</span>
+            <span class="logo-name">dev</span>
+            <span class="logo-dot">.</span>
+            <span class="logo-accent">portfolio</span>
+            <span class="logo-bracket">]</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Work</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+            <li><a href="/admin/" class="nav-link nav-admin">CMS ↗</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span>
+        </button>
+    </nav>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button onclick="this.parentElement.remove()">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <p class="footer-copy">Built with Django · <span class="accent">{% now "Y" %}</span></p>
+            <p class="footer-sub">Open to opportunities</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
